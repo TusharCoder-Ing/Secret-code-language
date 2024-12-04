@@ -20,38 +20,53 @@ userInput = input("Enter input\n>>> ").lower()
 randomStr1 = "".join(random.choice(string.ascii_lowercase) for i in range(3))
 randomStr2 = "".join(random.choice(string.ascii_lowercase) for i in range(3))
 
+tempOperation = []
+finalLst = []
+finalStr = ""
 def encoding():
     '''This function will take the userinput and encode it as per the instructions'''
-    global result
-    result = ""
-    lst = list(userInput)
-    if len(str(userInput)) >= 3:
-        x = lst.pop(0)
-        lst.append(x)
-        return randomStr1+result.join(lst)+randomStr2
-    else:
-        lst.reverse()
-        return randomStr1+result.join(lst)+randomStr2
-    
+    lst = userInput.split(" ")
+    for i in range(len(lst)):
+        
+        randomStr1 = "".join(random.choice(string.ascii_lowercase) for i in range(3))
+        randomStr2 = "".join(random.choice(string.ascii_lowercase) for i in range(3))
+        tempOperation = list(lst[i])
+        if len(lst[i]) >= 3:
+            poppedElement = tempOperation.pop(0)
+            tempOperation.append(poppedElement)
+            result = randomStr1 + "".join(tempOperation) + randomStr2
+            finalLst.append(result) 
+            # lst[i] = randomStr1+"".join(lst[i])+randomStr2
+            # print(lst[i])
+        else:
+            tempOperation.reverse()
+            result = randomStr1+"".join(tempOperation)+randomStr2
+            finalLst.append(result)
 def decoding():
     '''This function will take the userinput and decode it as per the instructions'''
-    global result
-    result = ""
-    lst = list(userInput)
-    if len(str(userInput)) >= 3:
-        lst = lst[3:-3]
-        x = lst.pop()
-        lst.insert(0, x)
-        return result.join(lst)
-    else:
-        lst = lst[3:-3]
-        lst.reverse()
-        return result.join(lst)
-
-
+    lst = userInput.split(" ")
+    for i in range(len(lst)):
+        tempOperation = list(lst[i])
+        if len(lst[i]) >= 3:
+            del tempOperation[:3]
+            del tempOperation[-3:]
+            popped = tempOperation.pop()
+            tempOperation.insert(0, popped)
+            result = "".join(tempOperation)
+            finalLst.append(result)
+        else:
+            del tempOperation[:3]
+            del tempOperation[-3:]
+            tempOperation.reverse()
+            finalLst.append(tempOperation)
 if userMode == 1:
-    print(encoding())
+    encoding()
+    finalStr = " ".join(finalLst)
+    print(finalStr)
 elif userMode == 2:
-    print(decoding())
+    decoding()
+    finalStr = " ".join(finalLst)
+    print(finalStr)
 else:
     raise ValueError("Invalid mode selected.")
+
